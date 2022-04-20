@@ -35,13 +35,13 @@ jobs:
 
       - name: Build Backend
         run: |
-          docker build ./backend -t checkinch_backend
-          docker save checkinch_backend > checkinch_backend.tar
+          docker build ./backend -t backend_image
+          docker save backend_image > backend_image.tar
 
       - name: Build Frontend
         run: |
-          docker build ./frontend -t checkinch_frontend
-          docker save checkinch_frontend > checkinch_frontend.tar
+          docker build ./frontend -t frontend_image
+          docker save frontend_image > frontend_image.tar
           ls
 
       - name: Prepare Remote Private Key
@@ -60,8 +60,8 @@ jobs:
             mkdir ./Deploy/images
           '
 
-          scp -o StrictHostKeyChecking=no -i private_key ./frontend.tar ${REMOTE_USERNAME}@${REMOTE_HOST}:./Deploy/images/frontend.tar
-          scp -o StrictHostKeyChecking=no -i private_key ./backend.tar ${REMOTE_USERNAME}@${REMOTE_HOST}:./Deploy/images/backend.tar
+          scp -o StrictHostKeyChecking=no -i private_key ./backend_image.tar ${REMOTE_USERNAME}@${REMOTE_HOST}:./Deploy/images/backend_image.tar
+          scp -o StrictHostKeyChecking=no -i private_key ./frontend_image.tar ${REMOTE_USERNAME}@${REMOTE_HOST}:./Deploy/images/frontend_image.tar
 
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USERNAME}@${REMOTE_HOST} '
             ./Deploy/deploy.sh
