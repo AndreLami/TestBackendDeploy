@@ -11,9 +11,21 @@ jobs:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     steps:
-      # Deploy images
+      - name: Checkout Backend
+        uses: actions/checkout@v2
+        with:
+          path: './backend'
+          token: ${{secrets.GIT_REPO_TOKEN}}
+      - name: Checkout Frontend
+          uses: actions/checkout@v2
+          with:
+            repository: AndreLami/TestFrontDeploy
+            path: './fronted'
+            token: ${{secrets.GIT_REPO_TOKEN}}
       - name: Build Backend
+        env:
+          PRIVATE_KEY: ${{ secrets.TEST_SECRET  }}
         run: |
-          echo "Hello world"
+          echo "Hello world $TEST_SECRET"
       - name: Docker Test
         run: docker ps
