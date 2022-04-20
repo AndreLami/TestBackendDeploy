@@ -1,0 +1,17 @@
+name: STAGING - Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  setup-build-publish-deploy:
+    timeout-minutes: 45
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      # Deploy images
+      - name: Build Backend
+        run: |
+          echo "Hello world"
