@@ -39,10 +39,10 @@ jobs:
           docker save checkinch_backend > checkinch_backend.tar
 
       - name: Build Frontend
-          run: |
-            docker build ./frontend -t checkinch_frontend
-            docker save checkinch_frontend > checkinch_frontend.tar
-            ls
+        run: |
+          docker build ./frontend -t checkinch_frontend
+          docker save checkinch_frontend > checkinch_frontend.tar
+          ls
 
       - name: Prepare Remote Private Key
         env:
