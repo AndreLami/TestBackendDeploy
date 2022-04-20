@@ -24,8 +24,10 @@ jobs:
           token: ${{secrets.GIT_REPO_TOKEN}}
       - name: Build Backend
         env:
-          PRIVATE_KEY: ${{ secrets.TEST_SECRET  }}
+          TEST_SECRET: ${{ secrets.TEST_SECRET  }}
         run: |
           echo "Hello world $TEST_SECRET"
+          ls ./frontend
+          ls ./backend
       - name: Docker Test
         run: docker ps
