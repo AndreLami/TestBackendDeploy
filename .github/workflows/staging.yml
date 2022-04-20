@@ -33,13 +33,28 @@ jobs:
       - name: Docker Test
         run: docker ps
 
-      - name: Test Connect Remote
+      - name: Build Backend
+        run: |
+          docker build ./backend -t checkinch_backend
+          docker save checkinch_backend > checkinch_backend.tar
+
+      - name: Build Frontend
+          run: |
+            docker build ./frontend -t checkinch_frontend
+            docker save checkinch_frontend > checkinch_frontend.tar
+            ls
+
+      - name: Prepare Remote Private Key
         env:
           REMOTE_PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME }}
         run: |
           echo "$REMOTE_PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USERNAME}@${REMOTE_HOST} '
-            ls ./
-          '
+
+      - name: Clear Images Directory
+          env:
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+            REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME }}
+          run: |
+            ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USERNAME}@${REMOTE_HOST} '
+              rm -r ./Deploy/images
+            '
