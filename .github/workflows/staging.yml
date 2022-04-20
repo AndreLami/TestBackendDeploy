@@ -27,7 +27,6 @@ jobs:
           TEST_SECRET: ${{ secrets.TEST_SECRET  }}
         run: |
           echo "Hello world $TEST_SECRET"
-          ls ./frontend
-          ls ./backend
+          ls ./
       - name: Docker Test
         run: docker ps
