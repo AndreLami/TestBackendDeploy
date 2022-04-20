@@ -14,13 +14,15 @@ jobs:
       - name: Checkout Backend
         uses: actions/checkout@v2
         with:
+          ref: 'master'
           path: './backend'
           token: ${{secrets.GIT_REPO_TOKEN}}
       - name: Checkout Frontend
         uses: actions/checkout@v2
         with:
           repository: AndreLami/TestFrontDeploy
-          path: './fronted'
+          ref: 'master'
+          path: './frontend'
           token: ${{secrets.GIT_REPO_TOKEN}}
       - name: Build Backend
         env:
@@ -30,3 +32,13 @@ jobs:
           ls ./
       - name: Docker Test
         run: docker ps
+
+      - name: Test Connect Remote
+        env:
+          REMOTE_PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY  }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST  }}
+          REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME  }}
+        run: |
+          echo "$REMOTE_PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USERNAME}@${REMOTE_HOST} '
+          ls ./
