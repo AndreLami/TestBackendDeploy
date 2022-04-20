@@ -58,5 +58,5 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USERNAME}@${REMOTE_HOST} '
             cd ./Deploy
-            ./deploy.sh
+            sudo ./deploy.sh
           '
