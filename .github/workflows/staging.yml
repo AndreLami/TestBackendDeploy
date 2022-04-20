@@ -17,6 +17,7 @@ jobs:
           ref: 'master'
           path: './backend'
           token: ${{secrets.GIT_REPO_TOKEN}}
+
       - name: Checkout Frontend
         uses: actions/checkout@v2
         with:
@@ -24,14 +25,6 @@ jobs:
           ref: 'master'
           path: './frontend'
           token: ${{secrets.GIT_REPO_TOKEN}}
-      - name: Build Backend
-        env:
-          TEST_SECRET: ${{ secrets.TEST_SECRET  }}
-        run: |
-          echo "Hello world $TEST_SECRET"
-          ls ./
-      - name: Docker Test
-        run: docker ps
 
       - name: Build Backend
         run: |
@@ -64,5 +57,6 @@ jobs:
           scp -o StrictHostKeyChecking=no -i private_key ./frontend_image.tar ${REMOTE_USERNAME}@${REMOTE_HOST}:./Deploy/images/frontend_image.tar
 
           ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USERNAME}@${REMOTE_HOST} '
-            ./Deploy/deploy.sh
+            cd ./Deploy
+            ./deploy.sh
           '
