@@ -17,11 +17,11 @@ jobs:
           path: './backend'
           token: ${{secrets.GIT_REPO_TOKEN}}
       - name: Checkout Frontend
-          uses: actions/checkout@v2
-          with:
-            repository: AndreLami/TestFrontDeploy
-            path: './fronted'
-            token: ${{secrets.GIT_REPO_TOKEN}}
+        uses: actions/checkout@v2
+        with:
+          repository: AndreLami/TestFrontDeploy
+          path: './fronted'
+          token: ${{secrets.GIT_REPO_TOKEN}}
       - name: Build Backend
         env:
           PRIVATE_KEY: ${{ secrets.TEST_SECRET  }}
